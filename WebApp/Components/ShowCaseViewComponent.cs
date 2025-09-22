@@ -3,18 +3,21 @@ using Services.Contracts;
 
 namespace StoreApp.Components
 {
-    public class ShowCaseViewComponent:ViewComponent
+    public class ShowCaseViewComponent : ViewComponent
     {
-      private readonly IServiceManager _manager;
+        private readonly IServiceManager _manager;
 
         public ShowCaseViewComponent(IServiceManager manager)
         {
             _manager = manager;
         }
-        public IViewComponentResult Invoke()
+
+        public IViewComponentResult Invoke(string page = "default")
         {
-            var products=_manager.ProductService.GetShowProducts(false);
-            return View(products);
+            var products = _manager.ProductService.GetShowProducts(false);
+            return page.Equals("default")
+                ? View(products)
+                : View("List", products);
         }
     }
 }

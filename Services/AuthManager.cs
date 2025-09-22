@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -44,10 +46,60 @@ namespace Services
             return result;
         }
 
+        public async Task<IdentityResult> DeleteOneUser(string userName)
+        {
+            var user= await GetOneUser(userName);
+            return await _userManager.DeleteAsync(user);
+        }
+
         public IEnumerable<IdentityUser> GetAllUsers()
         {
             return _userManager.Users.ToList();
         }
 
+        public async Task<IdentityUser> GetOneUser(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user is not null)
+                return user;
+            throw new Exception("User could not be found.");
+        }
+
+        public async Task<UserDtoForUpdate> GetOneUserForUpdate(string userName)
+        {
+                var user= await GetOneUser(userName);
+            
+                var userDto=  _mapper.Map<UserDtoForUpdate>(user);
+                userDto.Roles= new HashSet<string>(Roles.Select(r=>r.Name).ToList());
+                userDto.UserRoles = new HashSet<string>(await _userManager.GetRolesAsync(user));
+                return userDto;
+            
+
+        }
+
+        public async Task<IdentityResult> ResetPassword(ResetPasswordDto passwordDto)
+        {
+                var user= await GetOneUser(passwordDto.UserName);
+           
+                await _userManager.RemovePasswordAsync(user);
+                var result= await _userManager.AddPasswordAsync(user, passwordDto.Password);
+                return result;
+            
+        }
+
+        public async Task Update(UserDtoForUpdate userDto)
+        {
+            var user = await GetOneUser(userDto.UserName);
+            user.PhoneNumber = userDto.PhoneNumber;
+            user.Email = userDto.Email;
+            var result = await _userManager.UpdateAsync(user);
+            if (userDto.Roles.Count > 0)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var r1 = await _userManager.RemoveFromRolesAsync(user, userRoles);
+                var r2 = await _userManager.AddToRolesAsync(user, userDto.Roles);
+            }
+            return;
+        }
     }
 }

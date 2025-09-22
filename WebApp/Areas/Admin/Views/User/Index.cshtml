@@ -21,7 +21,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model)
+        @foreach (IdentityUser user in Model)
         {
             <tr>
                 <td>@user.Id</td>
@@ -29,24 +29,34 @@
                 <td user-name="@user.UserName" user-role=""></td>
                 <td>
                     <div class="btn-group">
-                        <a class="btn btn btn-warning rounded-0" asp-action="Update" asp-route-id="@user.UserName">
+                        <a data-toggle="tooltip" data-placement="top" title="Update" class="btn btn btn-warning rounded-0" asp-action="Update" asp-route-id="@user.UserName">
                             <i class="fa fa-solid fa-edit"></i>
-                            Edit
+                            
                         </a>
-                        <a class="btn btn btn-info rounded-0" asp-action="ResetPassword" asp-route-id="@user.UserName">
+                        <a data-toggle="tooltip" data-placement="top" title="ResetPassword" class="btn btn btn-danger rounded-0" asp-action="ResetPassword" asp-route-id="@user.UserName">
                             <i class="fa fa-solid fa-edit"></i>
-                            Reset Password
+                          
                         </a>
-                        <form method="post" asp-action="DeleteOneUser">
+                        <form method="post" asp-action="DeleteOneUser" >
                             <input type="hidden" name="UserName" value="@user.UserName" />
-                            <button type="submit" class="btn btn-danger rounded-0">
+                            <button  data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-info rounded-0">
                                 <i class="fa fa-solid fa-trash"></i>
-                                Delete
+
                             </button>
                         </form>
+                             
                     </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+}

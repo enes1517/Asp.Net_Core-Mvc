@@ -41,7 +41,7 @@ namespace StoreApp.Controllers
             }
             return View();
         }
-        public async Task<IActionResult> Logout([FromQuery(Name ="ReturnUrl")] string ReturnUrl)
+        public async Task<IActionResult> Logout([FromQuery(Name ="ReturnUrl")] string ReturnUrl="/")
         {
             await _signInManager.SignOutAsync();
             return Redirect(ReturnUrl);
@@ -78,6 +78,10 @@ namespace StoreApp.Controllers
             }
             return View();
 
+        }
+        public IActionResult AccessDenied([FromQuery(Name ="ReturnUrl")] string returnUrl)
+        {
+            return View();
         }
    
 

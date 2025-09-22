@@ -6,18 +6,25 @@ using Services;
 using Services.Contracts;
 using StoreApp.Infrastructure.Extensions;
 using StoreApp.Models;
+using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureSession();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureRepositoryRegistrations();
 builder.Services.ConfigureServiceRegistrations();
 builder.Services.ConfigureRouting();
-
+builder.Services.ConfigureApplicationCookie();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -44,6 +51,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapRazorPages();
+    endpoints.MapControllers();
 });
 
 
