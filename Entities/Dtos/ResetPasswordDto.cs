@@ -11,6 +11,7 @@ namespace Entities.Dtos
     {
 
         public String? UserName { get; set; }
+        public String? Email { get; set; }
 
         [Required(ErrorMessage ="Password is required")]
         [DataType(DataType.Password)]

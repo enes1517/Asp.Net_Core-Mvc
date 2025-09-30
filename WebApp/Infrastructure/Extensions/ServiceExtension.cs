@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Repositories;
 using Repositories.Contracts;
-using Services.Contracts;
 using Services;
-using Entities.Models;
+using Services.Contracts;
+using StoreApp.mail;
+using StoreApp.Mail;
 using StoreApp.Models;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace StoreApp.Infrastructure.Extensions
 {
@@ -63,6 +65,10 @@ namespace StoreApp.Infrastructure.Extensions
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<IOrderService, OrderManager>();
             services.AddScoped<IAuthService, AuthManager>();
+            services.AddScoped<StoreApp.Mail.IEmailSender, EmailSender>();
+            // Program.cs dosyasında
+
+
         }
         public static void ConfigureRouting(this IServiceCollection services)
         {

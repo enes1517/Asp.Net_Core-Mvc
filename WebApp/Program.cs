@@ -5,6 +5,7 @@ using Repositories.Contracts;
 using Services;
 using Services.Contracts;
 using StoreApp.Infrastructure.Extensions;
+using StoreApp.Mail;
 using StoreApp.Models;
 using System.Reflection.Metadata;
 
@@ -25,8 +26,9 @@ builder.Services.ConfigureRepositoryRegistrations();
 builder.Services.ConfigureServiceRegistrations();
 builder.Services.ConfigureRouting();
 builder.Services.ConfigureApplicationCookie();
-
+ builder.Services.AddDataProtection();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 

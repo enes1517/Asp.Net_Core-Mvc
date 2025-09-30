@@ -1,3 +1,6 @@
+using StoreApp.mail;
+using StoreApp.Mail;
+
 namespace Services.Contracts
 {
     public interface IServiceManager
@@ -6,5 +9,6 @@ namespace Services.Contracts
         ICategoryService CategoryService {get;}
         IOrderService OrderService {get;}
         IAuthService AuthService {get;}
+        IEmailSender EmailSender {get;}
     }
 }
