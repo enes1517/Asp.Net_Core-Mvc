@@ -46,6 +46,11 @@ namespace StoreApp.Areas.Admin.Controllers
         public async Task<IActionResult> Update([FromRoute(Name = "id")] string id)
         {
             var user = await _manager.AuthService.GetOneUserForUpdate(id);
+            if (user is null)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(user);
         }
 
@@ -58,7 +63,7 @@ namespace StoreApp.Areas.Admin.Controllers
                 await _manager.AuthService.Update(userDto);
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(userDto);
         }
 
         public async Task<IActionResult> ResetPassword([FromRoute(Name = "id")] string id)

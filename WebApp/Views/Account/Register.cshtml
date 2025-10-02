@@ -1,44 +1,82 @@
 ﻿@model RegisterDto
 
-<div class="text-center my-5">
-
-    <h6 class="display-6">
-        <i class="fa-solid fa-user-plus text-white bg-secondary p-3 rounded-5"></i>
-        <br />
-        Register
-    </h6>
-</div>
-
-<div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-        <div>
-            <div class="text-danger" asp-validation-summary="All"></div>
+<div class="min-h-screen bg-gradient-to-br from-gray-100 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full bg-white shadow-2xl rounded-2xl p-8 transform transition-all hover:scale-105 duration-300">
+        <div class="text-center mb-8">
+            <h6 class="text-3xl font-bold text-gray-800 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-user-plus text-white bg-indigo-600 p-3 rounded-full shadow-md"></i>
+                Register
+            </h6>
         </div>
-        <form method="post" asp-action="Register">
 
-            <div class="form-group my-3">
-                <label asp-for="UserName"></label>
-                <input asp-for="UserName" class="form-control" />
+        <div class="mb-6">
+            <div class="text-red-500 font-medium text-center" asp-validation-summary="All" role="alert"></div>
+        </div>
+
+        <form method="post" asp-action="Register" class="space-y-6" asp-antiforgery="true">
+            <div class="form-group">
+                <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" asp-for="Email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200" placeholder="Enter your email" required aria-required="true" />
             </div>
 
-            <div class="form-group my-3">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
+            <div class="form-group">
+                <label asp-for="Password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+
+                <div class="relative">
+                    <input type="password"
+                           asp-for="Password"
+                           id="registerPasswordInput"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 pr-10"
+                           placeholder="Enter your password"
+                           required
+                           aria-required="true" />
+                    <span class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-indigo-600"
+                          id="registerTogglePassword">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                <input type="text" asp-for="UserName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200" placeholder="Enter your username" required aria-required="true" />
             </div>
 
-            <div class="form-group my-3">
-                <label asp-for="Password"></label>
-                <input type="password" asp-for="Password" class="form-control" />
-            </div>
-
-            <div class="form-group my-3 d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-user-plus"></i>
+            <div class="form-group flex justify-center">
+                <button type="submit" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-200">
+                    <i class="fa-solid fa-user-plus mr-2"></i>
                     Register
                 </button>
             </div>
         </form>
+
+        <div class="text-center mt-6">
+            <p class="text-sm text-gray-600">
+                Already have an account? <a asp-action="Login" class="text-indigo-600 hover:text-indigo-500 font-medium">Log in here.</a>
+            </p>
+        </div>
     </div>
-    <div class="col-md-3"></div>
 </div>
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.getElementById('registerTogglePassword');
+        const passwordInput = document.getElementById('registerPasswordInput');
+
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+        }
+    });
+</script>
