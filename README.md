@@ -43,5 +43,9 @@ Identity
 API
 
 Presentation Layer
+
 Admin Panel
+
 MSSQL veri tabanı
+
+gibi teknolojiler kullanılmıştır.
