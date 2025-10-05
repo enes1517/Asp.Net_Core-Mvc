@@ -1,10 +1,17 @@
 ASP.NET Core MVC Projesidir.
+
 Porje içeriği:
+
 Model Validation
+
 Migrations
+
 Dependency Injection
+
 Inversion of Control
+
 Partial View
+
 Layout
 Repository Pattern
 Services
